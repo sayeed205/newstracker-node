@@ -1,16 +1,31 @@
+import { MainNav } from '@/components/main_nav'
+import { mainNavConfig } from '~/config/main_nav'
+import { UserAccountNav } from '@/components/user_account_nav'
 
-const AppLayout = ({ children }) => {
+interface AppLayoutProps {
+  children?: React.ReactNode
+  user: any
+}
+
+const AppLayout = ({ children, user }: AppLayoutProps) => {
+  console.log(user)
   return (
-    <div className="flex flex-col min-h-screen bg-primary">
-      <Header />
-      <main className="flex-grow flex flex-col items-center justify-center">
-        <div className="flex container flex-col items-center">
-          {children}
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
+    <div className="flex min-h-screen flex-col space-y-6">
+      <header className="sticky top-0 z-40 border-b bg-background">
+        <div className="container flex h-16 items-center justify-between py-4">
+          <MainNav items={mainNavConfig} />
 
-export default AppLayout;
+          <UserAccountNav
+            user={{
+              name: user.name,
+              email: user.email,
+            }}
+          />
+        </div>
+      </header>
+      <main className="flex flex-1 flex-col overflow-hidden m-6">{children}</main>
+    </div>
+  )
+}
+
+export default AppLayout
